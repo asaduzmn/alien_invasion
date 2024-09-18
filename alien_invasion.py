@@ -1,4 +1,5 @@
 import pygame
+from pygame.sprite import Group
 
 from settings import Settings
 from ship import Ship
@@ -16,11 +17,15 @@ def run_game():
     #make ship
     ship = Ship(ai_settings, screen)
 
+    #make group to strore bullets in
+    bullets = Group()
+
     #Start the main loop for the game
     while True:
-        gf.check_events(ship)
+        gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
-        gf.update_screen(ai_settings, screen, ship)
+        bullets.update()
+        gf.update_screen(ai_settings, screen, ship, bullets)
 
         # Make the most recently drawn screen visible.
         pygame.display.flip()
