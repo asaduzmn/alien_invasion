@@ -1,0 +1,4 @@
+*.swo
+.fuse*
+**/__pycache__/*
+**/.vscode/*
