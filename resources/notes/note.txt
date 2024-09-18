@@ -1,3 +1,2 @@
-To set the screen
-	-- pygame.display.set_mode(width, height)
-	-- pygame.display.set_caption('')
+একটা গেম তৈরি করতে গেলে কি লাগে?
+- display লাগবে। তাহলে display এর height আর width ঠিক করতে হবে। এটা যেভাবে ঠিক করতে হবে তা হলো। 

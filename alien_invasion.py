@@ -1,36 +1,26 @@
+import sys
 import pygame
-from settings import Settings
-from ship import Ship
-import game_functions as gf
-from pygame.sprite import Group
-from alien import Alien
 
 def run_game():
-    #Initialize pygame, settings, and screen object.
+    #Initialize a game and create a screen object
     pygame.init()
-    ai_settings = Settings()
-    screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
+    screen = pygame.display.set_mode((1080, 600))
     pygame.display.set_caption("Alien Invasion")
-    
-    #Make a ship
-    ship = Ship(screen, ai_settings)
-    bullets = Group()
-    aliens = Group()    
+
+    #set the background color
+    bg_color = (230,230,230)
 
     #Start the main loop for the game
     while True:
-        #watch for keyboard and mouse events.
-        gf.check_events(ai_settings, screen, ship, bullets)
-
-        ship.update()   
-
-        gf.update_bullets(aliens, bullets)
-        gf.update_aliens(ai_settings, aliens)
-        #create fleet of aliens
-        gf.create_fleet(ai_settings, screen, ship, aliens)
-
-
-        #update the screen
-        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
+        # Watch for keyboard and mouse
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
         
+        #Redraw the screen during each pass through the loop
+        screen.fill(bg_color)
+
+        # Make the most recently drawn screen visible.
+        pygame.display.flip()
+
 run_game()
