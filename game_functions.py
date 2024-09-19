@@ -67,3 +67,16 @@ def update_screen(ai_settings, screen, ship, bullets):
     #redraw all bullets behind ship and aliens
     for bullet in bullets.sprites():
         bullet.draw_bullet()
+
+
+def update_bullets(bullets):
+    """
+    Update position of bullets and get rid of old bullets.
+    """
+    #update bullet positions
+    bullets.update()
+
+    #get rid of bullets that disappeard
+    for bullet in bullets.copy():
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)
