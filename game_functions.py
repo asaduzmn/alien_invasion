@@ -4,6 +4,16 @@ import pygame
 from bullet import Bullet
 
 
+def fire_bullet(ai_settings, screen, ship, bullets):
+    """
+    Fire a bullet if limit not reached yet
+    """
+    #create a new bullet and add it to the bullets group.
+    if  len(bullets) < ai_settings.bullet_allowed:
+        new_bullet = Bullet(ai_settings, screen, ship)
+        bullets.add(new_bullet)
+
+
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
     """Respond to keypresses
 
@@ -18,10 +28,8 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
         ship.moving_right = True
     elif event.key == pygame.K_LEFT:
         ship.moving_left = True
-    elif event.key == pygame.K_SPACE and  len(bullets) < ai_settings.bullet_allowed:
-        #create a new bullet and add it to the bullets group.
-        new_bullet = Bullet(ai_settings, screen, ship)
-        bullets.add(new_bullet)
+    elif event.key == pygame.K_SPACE:
+        fire_bullet(ai_settings, screen, ship, bullets)
 
 
 def check_up_events(event, ship):
