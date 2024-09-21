@@ -146,8 +146,19 @@ class AlienInvasion:
         """
         Strt a new game when the player clicks play
         """
-        if self.play_button.rect.collidepoint(mouse_po):
+        button_clicked = self.play_button.rect.collidepoint(mouse_po)
+        if button_clicked and not self.game_active:
+            #reset the game statistics
+            self.stats.reset_stats()
             self.game_active = True
+
+            #get rid of any remaining alien and bullet
+            self.bullets.empty()
+            self.aliens.empty()
+
+            #create a new fleet and center the ship
+            self._create_fleet()
+            self.ship.center_ship()
 
 
     def _check_keydown_events(self, event):
@@ -234,7 +245,6 @@ class AlienInvasion:
         pygame.display.flip()
         
 
-
     def _create_fleet(self):
         """
         Create a full fleet of aliens
@@ -271,7 +281,8 @@ class AlienInvasion:
             #finished a row; reset x value, and increment y value
             current_x = alien_width
             current_y += 2*alien_height
-            
+
+
     def _create_alien(self, x_postion, y_postion):
         """
         Create an alien and place it in the row
