@@ -229,6 +229,7 @@ class AlienInvasion:
             #destroy existing bullters and create new fleet.
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increse_speed()
 
 
     def _update_screen(self):
