@@ -18,6 +18,7 @@ class AlienInvasion:
         """Initializw the game and create fame resources
         """
         pygame.init()
+        self.clock = pygame.time.Clock()
         self.settings = Settings()
 
         self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
@@ -38,14 +39,14 @@ class AlienInvasion:
         #Start the main loop for the game
         while True:
             self._check_events()
-            
+
             if self.stats.game_active:
                 self.ship.update()
                 self._update_bullets()
                 self._update_aliens()
 
             self._update_screen()
-                    
+            self.clock.tick(60)
 
 
     def _ship_hit(self):
@@ -207,6 +208,7 @@ class AlienInvasion:
         self.aliens.draw(self.screen)
         # Make the most recently drawn screen visible.
         pygame.display.flip()
+        
 
 
     def _create_fleet(self):
@@ -218,37 +220,44 @@ class AlienInvasion:
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
 
-        available_space = self.settings.screen_width - 2*alien_width
-        number_alien_x = available_space // (2*alien_width)
+        # available_space = self.settings.screen_width - 2*alien_width
+        # number_alien_x = available_space // (2*alien_width)
 
-        """
-        Determine the number of rows of aliens that fit on the screen.
-        """
-        ship_height = self.ship.rect.height
-        available_space_y = (self.settings.screen_height - 
-                            (3 * alien_height) - ship_height)
-        number_rows = available_space_y//(2*alien_height)
+        # """
+        # Determine the number of rows of aliens that fit on the screen.
+        # """
+        # ship_height = self.ship.rect.height
+        # available_space_y = (self.settings.screen_height - 
+        #                     (3 * alien_height) - ship_height)
+        # number_rows = available_space_y//(2*alien_height)
 
-        # number_alien_x = get_number_alien_x(ai_settings, alien_width)
-        # number_rows = get_number_rows(ai_settings, ship.rect.height, alien.rect.height)
+        # # number_alien_x = get_number_alien_x(ai_settings, alien_width)
+        # # number_rows = get_number_rows(ai_settings, ship.rect.height, alien.rect.height)
 
-        # #create fleet of aliens
-        for row_number in range(number_rows):
-            for alien_number in range(number_alien_x):
-                self._create_alien(alien_number, row_number)
+        # # #create fleet of aliens
+        # for row_number in range(number_rows):
+        #     for alien_number in range(number_alien_x):
+        #         self._create_alien(alien_number, row_number)
+        current_x, current_y = alien_width, alien_height
+        while current_y < (self.settings.screen_height - 3*alien_height - self.ship.rect.height):
+            while current_x < (self.settings.screen_width - 2*alien_width):
+                self._create_alien(current_x, current_y)
+                current_x += 2*alien_width
             
+            #finished a row; reset x value, and increment y value
+            current_x = alien_width
+            current_y += 2*alien_height
             
-    def _create_alien(self, alien_number, row_number):
+    def _create_alien(self, x_postion, y_postion):
         """
         Create an alien and place it in the row
         """
-        alien = Alien(self)
-        alien_width = alien.rect.width
-        alien.x = alien_width + 2 * alien_width * alien_number
-        alien.y = alien.rect.height + 2 * alien.rect.height * row_number
-        alien.rect.x = alien.x
-        alien.rect.y = alien.y
-        self.aliens.add(alien)
+        new_alien = Alien(self)
+        # alien_width = alien.rect.width
+        new_alien.x = x_postion
+        new_alien.rect.x = x_postion
+        new_alien.rect.y = y_postion
+        self.aliens.add(new_alien)
 
 
 
